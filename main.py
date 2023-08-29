@@ -2,42 +2,36 @@ import pyautogui
 from pynput.keyboard import *
 
 #  ======== settings ========
-delay = 1  # in seconds
-start = Key.f1
-pause = Key.f2
-quit = Key.esc
+delay = 0.11  # in seconds
+start = Key.esc
+pause_key = Key.space
 #  ==========================
 
-pause = True
+paused = True
 running = True
 
 def gui_controls():
     print("╔════════════════════════════════════════════╗")
     print("║         AutoClicker by Slothy              ║")
     print("║                - Settings -                ║")
-    print(f"║  Delay: {delay} sec                              ║")
+    print(f"║  Delay: {delay} sec                            ║")
     print("║                                            ║")
     print("║                - Controls -                ║")
-    print("║  F1 = Start                                ║")
-    print("║  F2 = Pause                                ║")
-    print("║  F3 = Quit                                 ║")
+    print("║  space = Start                             ║")
+    print("║  esc = Pause                               ║")
     print("║                                            ║")
     print("╚════════════════════════════════════════════╝")
     print("Press F1 to start ...")
 
 def on_press(key):
-    global running, pause
+    global running, paused  # Changed 'pause' to 'paused'
 
     if key == start:
-        pause = False
+        paused = False
         print("▶ Start ▶")
-    elif key == pause:
-        pause = True
+    elif key == pause_key:  # Use 'pause_key' here
+        paused = True
         print("⏸ Pause ⏸")
-    elif key == quit:
-        running = False
-        print("⛔ Quit ⛔")
-
 
 def main():
     Listen = Listener(on_press=on_press)
@@ -45,11 +39,10 @@ def main():
 
     gui_controls()
     while running:
-        if not pause:
+        if not paused:  # Changed 'pause' to 'paused'
             pyautogui.click(pyautogui.position())
             pyautogui.PAUSE = delay
     Listen.stop()
-
 
 if __name__ == "__main__":
     main()
